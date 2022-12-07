@@ -1,0 +1,326 @@
+
+typedef struct BplusListNode BplusListNode;
+typedef struct DoubleLinkedBplusList DoubleLinkedBplusList;
+typedef struct BplusTreeRecordData* BplusListData;
+
+typedef int BplusTreePrimaryKey;
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/* List node - basic structural part of the Double Linked List data structure. */
+
+struct BplusListNode
+{
+
+    BplusListData RecordData;       // Record data of a RDBMS table.
+    BplusListNode* List_NextNode;   // Left - next list node that is linked to the current node.
+    BplusListNode* List_PrevNode;   // Right - previous list node that is linked to the current node.
+
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/* Double Linked List data structure. */
+
+struct DoubleLinkedBplusList
+{
+
+    BplusListNode* List_HeadNode;   // First - left side node (head node) of the List structure.
+    BplusListNode* List_TailNode;   // Last - right side node (tail node) of the List structure.
+    int List_Size;                  // List stored nodes.
+
+};
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Initializes the Double Linked List data structure.
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void Initialize_BplusList(
+
+        struct DoubleLinkedBplusList* LinkedList   // List data structure object.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Creates a Double Linked List node and inserts the record data of the table into them.
+*
+*  Return value:  Created List node
+*
+*/
+
+struct BplusListNode* Create_BplusListNode(
+
+        BplusListData RecordData   // Record data - to be inserted.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Builds a node at the head - left side of the List structure and stores the record data in this node.
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void InsertBplusListNode_First(
+
+        struct DoubleLinkedBplusList* LinkedList,   // List data structure object.
+        BplusListData RecordData                    // Record data - to be inserted.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Builds a node at the tail - right side of the List structure and stores the record data in this node.
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void InsertBplusListNode_Last(
+
+        struct DoubleLinkedBplusList* LinkedList,   // List data structure object.
+        BplusListData RecordData                    // Record data - to be inserted.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Builds a node at a specific index location (position) of the List structure and stores the record data in this node.
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void InsertBplusListNode_Index(
+
+        struct DoubleLinkedBplusList* LinkedList,   // List data structure object.
+        BplusListData RecordData,                   // Record data - to be inserted.
+        int insertion_position_index                // Location - position in the List structure that the record data will be stored.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Deletes the head - left side node of the List structure and the data that contains.
+*
+*  Return value:  Record data of the deleted List node
+*
+*/
+
+BplusListData DeleteBplusListNode_First(
+
+        struct DoubleLinkedBplusList* LinkedList   // List data structure object.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Deletes the tail - right side node of the List structure and the data that contains.
+*
+*  Return value:  Record data of the deleted List node
+*
+*/
+
+BplusListData DeleteBplusListNode_Last(
+
+        struct DoubleLinkedBplusList* LinkedList   // List data structure object.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Deletes the node at a specific index location (position) of the List structure and the data that contains.
+*
+*  Return value:  Record data of the deleted List node
+*
+*/
+
+BplusListData DeleteBplusListNode_Index(
+
+        struct DoubleLinkedBplusList* LinkedList,   // List data structure object.
+        int deletion_position_index                 // Location - position in the List structure that the record data will be deleted.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Deletes all nodes of the Double Linked List.
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void DeleteBplusList(
+
+        struct DoubleLinkedBplusList* LinkedList   // List data structure object.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Deletes all nodes and records of the Double Linked List.
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void DropBplusList(
+
+        struct DoubleLinkedBplusList* LinkedList,       // List data structure object.
+
+        bool (*Deallocate_Record_Data)(BplusListData)   // Deallocates the record data that is stored in the List.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Displays List record data primary key fields forward (left to right side).
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void DisplayBplusList_Forward(
+
+        struct DoubleLinkedBplusList LinkedList,                      // List data structure object.
+
+        BplusTreePrimaryKey (*Get_Record_PrimaryKey)(BplusListData)   // Receives the primary key field of a specific table.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Displays List record data primary key fields backward (right to left side).
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void DisplayBplusList_Backward(
+
+        struct DoubleLinkedBplusList LinkedList,   // List data structure object.
+
+        void* Get_RecordPrimaryKey                 // Receives the primary key field of a specific table.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Inserts a List part at the head - left side of the Double Linked List.
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void InsertBplusListPart_First(
+
+        struct DoubleLinkedBplusList* LinkedList,          // List data structure object.
+        struct DoubleLinkedBplusList InputLinkedListPart   // List part - to be inserted (merged) at the head of the List.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Inserts a List part at the tail - right side of the Double Linked List.
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void InsertBplusListPart_Last(
+
+        struct DoubleLinkedBplusList* LinkedList,          // List data structure object.
+        struct DoubleLinkedBplusList InputLinkedListPart   // List part - to be inserted (merged) at the tail of the List.
+
+);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+*  Inserts a List part at a specific index location (position) of the Double Linked List.
+*
+*  Return value:  Nothing specific
+*
+*/
+
+void InsertBplusListPart_Index(
+
+        struct DoubleLinkedBplusList* LinkedList,           // List data structure object.
+        struct DoubleLinkedBplusList InputLinkedListPart,   // List part - to be inserted (merged) at a specific index location (position) in the List.
+        int insertion_position_index                        // Location - position in the List structure that the List part will be merged.
+
+);
+
